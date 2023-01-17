@@ -5,9 +5,10 @@ Deno timers utility library.
 ```ts
 import { Timer, Magnitude } from "https://deno.land/x/dimers/mod.ts";
 
-const timer = new Timer(()=>{
-  console.log("Hello World!");
-});
-
-timer.add(1, Magnitude.Seconds).start();
+const timer = new Timer(
+  ()=>{
+    console.log("Hello World!");
+  })
+  .add(1, Magnitude.Seconds)
+  .start();
 ```

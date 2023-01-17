@@ -3,6 +3,7 @@ export class Timer {
   private callback: Function;
   private milliseconds: number = 0;
   private repeat: boolean = false;
+  private timeout: number = 0;
 
   constructor(callback: Function, repeat: boolean = false) {
     this.callback = callback;
@@ -15,13 +16,21 @@ export class Timer {
   }
 
   public start() {
-    setTimeout(() => {
+    this.stop();
+
+    this.timeout = setTimeout(() => {
       this.callback();
 
       if (this.repeat) {
         this.start();
+      } else {
+        this.stop();
       }
     }, this.milliseconds);
+  }
+
+  public stop() {
+    clearTimeout(this.timeout);
   }
 }
 
