@@ -31,3 +31,20 @@ Deno.test("1 second timer with repeat", async () => {
 
   timer.stop();
 });
+
+Deno.test("Access timer from function", async () => {
+  let counter = 0;
+
+  const timer = new Timer((timer: Timer) => {
+    counter++;
+
+    timer.stop();
+  }, true);
+
+  timer.add(Magnitude.Second, 1).start();
+
+  assertEquals(counter, 0);
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  assertEquals(counter, 1);
+});

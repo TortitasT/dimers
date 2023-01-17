@@ -3,7 +3,7 @@ export class Timer {
   private callback: Function;
   private milliseconds: number = 0;
   private repeat: boolean = false;
-  private timeout: number = 0;
+  private timeout: number | undefined = undefined;
 
   constructor(callback: Function, repeat: boolean = false) {
     this.callback = callback;
@@ -19,7 +19,11 @@ export class Timer {
     this.stop();
 
     this.timeout = setTimeout(() => {
-      this.callback();
+      this.callback(this);
+
+      if (this.timeout === undefined) {
+        return;
+      }
 
       if (this.repeat) {
         this.start();
@@ -31,6 +35,7 @@ export class Timer {
 
   public stop() {
     clearTimeout(this.timeout);
+    this.timeout = undefined;
   }
 }
 
